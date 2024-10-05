@@ -1,14 +1,13 @@
-
 import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
-
-# Enter your credentials 
-USERNAME = "test@example.com"  # Replace with your GitHub username
-PASSWORD = "password"  # Replace with your GitHub password
-WEB_URL = 'https://github.com/login'
+from src.config.config import (
+    WEB_URL,
+    USERNAME,
+    PASSWORD
+)
 
 # Set up the WebDriver
 print('Initializing Chrome driver...')
