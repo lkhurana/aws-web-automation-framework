@@ -6,12 +6,14 @@ from webdriver_manager.chrome import ChromeDriverManager
 from src.config.config import (
     WEB_URL,
     USERNAME,
-    PASSWORD
+    PASSWORD,
+    EMAIL_RECIPIENT
 )
-from src.logging_scripts.log_handler import setup_logging
+from src.logging_scripts.log_handler import setup_logging, send_log_email
 
 # Initialize logging
-logger = setup_logging('automation_script.log')
+LOG_FILENAME = 'automation_script.log'
+logger = setup_logging(LOG_FILENAME)
 
 # Set up the WebDriver
 logger.info('Initializing Chrome driver...')
@@ -37,7 +39,7 @@ def automate_login():
         password_input.send_keys(PASSWORD)
 
         # Click the sign-in button
-        #sign_in_button.click()
+        sign_in_button.click()
         logger.info('Sign in button clicked.')
 
         # Wait for a while to observe the result
@@ -54,5 +56,9 @@ def automate_login():
 if __name__ == "__main__":
     logger.info("Starting the automation script...")
     automate_login()
+
+    # Send logs via email
+    logger.info("Sending logs via email...")
+    send_log_email(LOG_FILENAME,EMAIL_RECIPIENT)
 
     logger.info("Automation script finished.")
