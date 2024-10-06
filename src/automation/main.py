@@ -8,15 +8,19 @@ from src.config.config import (
     USERNAME,
     PASSWORD
 )
+from src.logging_scripts.log_handler import setup_logging
+
+# Initialize logging
+logger = setup_logging('automation_script.log')
 
 # Set up the WebDriver
-print('Initializing Chrome driver...')
+logger.info('Initializing Chrome driver...')
 driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
 
 def automate_login():
     try:
         # Open GitHub login page
-        print('Opening login page...')
+        logger.info('Opening login page...')
         driver.get(WEB_URL)
 
         # Wait for the page to load
@@ -28,27 +32,27 @@ def automate_login():
         sign_in_button = driver.find_element(By.NAME, "commit")
 
         # Fill in the login form
-        print('Entering user credentials...')
+        logger.info('Entering user credentials...')
         username_input.send_keys(USERNAME)
         password_input.send_keys(PASSWORD)
 
         # Click the sign-in button
-        sign_in_button.click()
-        print('Sign in button clicked.')
+        #sign_in_button.click()
+        logger.info('Sign in button clicked.')
 
         # Wait for a while to observe the result
         time.sleep(5)
 
     finally:
-        print(f"Current URL after login: {driver.current_url}")
+        logger.info(f"Current URL after login attempt: {driver.current_url}")
 
         # Close the WebDriver
         driver.quit()
-        print('Chrome driver closed. Script ended.')
+        logger.info('Chrome driver closed. Script ended.')
 
 
 if __name__ == "__main__":
-    print("Starting the automation script...")
+    logger.info("Starting the automation script...")
     automate_login()
 
-    print("Automation script finished.")
+    logger.info("Automation script finished.")
