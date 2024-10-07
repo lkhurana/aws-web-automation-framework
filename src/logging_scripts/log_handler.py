@@ -3,10 +3,10 @@ from logging.handlers import RotatingFileHandler
 from src.config.config import (
     SMTP_SERVER,
     SMTP_PORT,
-    SMTP_USER,
-    SMTP_PASSWORD
+    SMTP_USER_PARAM_NAME,
+    SMTP_PASS_PARAM_NAME
 )
-from src.automation.utils import send_email
+from src.utils import send_email, get_credential
 
 def setup_logging(log_filename):
     # Clear the log file (open in write mode to truncate)
@@ -36,8 +36,7 @@ def send_log_email(log_filename, recipient_email, subject = 'Automation Script L
         with open(log_filename, 'r') as log_file:
             log_content = log_file.read()
         
-        send_email(subject, log_content, recipient_email, SMTP_SERVER, SMTP_PORT, SMTP_USER, SMTP_PASSWORD)
-
+        send_email(subject, log_content, recipient_email, SMTP_SERVER, SMTP_PORT, get_credential(SMTP_USER_PARAM_NAME), get_credential(SMTP_PASS_PARAM_NAME))
         logging.info("Log email sent successfully.")
 
     except Exception as e:

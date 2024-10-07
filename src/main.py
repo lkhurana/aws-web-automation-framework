@@ -1,7 +1,8 @@
-from src.config.config import EMAIL_RECIPIENT
 from src.logging_scripts.log_handler import setup_logging, send_log_email
 from src.automation.driver_setup import get_driver
 from src.automation.login import automate_login
+from src.utils import get_credential
+from src.config.config import RECIPIENT_PARAM_NAME
 
 if __name__ == "__main__":
     # Initialize logging
@@ -18,6 +19,6 @@ if __name__ == "__main__":
 
     # Send logs via email
     logger.info("Sending logs via email...")
-    send_log_email(LOG_FILENAME,EMAIL_RECIPIENT)
+    send_log_email(LOG_FILENAME, get_credential(RECIPIENT_PARAM_NAME))
 
     logger.info("Automation script finished.")
