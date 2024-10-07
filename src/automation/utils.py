@@ -2,21 +2,26 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-def send_email(subject, body, to_email, from_email, smtp_server, smtp_port, login, password):
+def send_email(subject, body, to_email, smtp_server, smtp_port, login, password):
     """
-    Send an email with the specified subject and body.
-    :param subject: Email subject
-    :param body: Email body
-    :param to_email: Recipient email address
-    :param from_email: Sender email address
-    :param smtp_server: SMTP server address
-    :param smtp_port: SMTP server port
-    :param login: Email login
-    :param password: Email password
-    :return: None
+    Sends an email with the specified subject and body.
+
+    This function sets up the SMTP server connection, logs in using provided
+    credentials, and sends an email to the specified recipient.
+
+    Args:
+        subject (str): The subject line of the email.
+        body (str): The main content of the email.
+        to_email (str): The recipient's email address.
+        smtp_server (str): The address of the SMTP server.
+        smtp_port (int): The port used by the SMTP server.
+        login (str): The login username for the email account.
+        password (str): The login password for the email account.
+
+    Returns:
+        None
     """
     msg = MIMEMultipart()
-    msg['From'] = from_email
     msg['To'] = to_email
     msg['Subject'] = subject
     msg.attach(MIMEText(body, 'plain'))
