@@ -3,7 +3,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import boto3
 from botocore.exceptions import ClientError
-from src.config.config import REGION_NAME
+from src.config import REGION_NAME
 
 def send_email(subject, body, to_email, smtp_server, smtp_port, login, password):
     """

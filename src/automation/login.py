@@ -1,6 +1,6 @@
 import time
 from selenium.webdriver.common.by import By
-from src.config.config import (
+from src.config import (
     WEB_URL,
     USERNAME,
     PASSWORD

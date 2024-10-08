@@ -1,8 +1,8 @@
-from src.logging_scripts.log_handler import setup_logging, send_log_email
+from src.log_handler import setup_logging, send_log_email
 from src.automation.driver_setup import get_driver
 from src.automation.login import automate_login
 from src.utils import get_credential
-from src.config.config import RECIPIENT_PARAM_NAME
+from src.config import RECIPIENT_PARAM_NAME
 
 if __name__ == "__main__":
     # Initialize logging
