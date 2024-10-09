@@ -2,6 +2,7 @@ import logging
 import json
 import boto3
 import time
+import os
 
 # Configure logging
 logger = logging.getLogger()
@@ -15,7 +16,7 @@ def lambda_handler(event, context):
     Lambda function to ensure EC2 instance is running, execute the main script, and stop the instance afterward.
     """
     logger.info("Lambda function started")
-    INSTANCE_ID = 'i-08082bcb39ef4fa33'
+    INSTANCE_ID = os.environ.get('EC2_INSTANCE_ID')
     RUN_COMMAND = 'bash -c "cd /home/ubuntu/projects/aws-web-automation-framework/ && source aws-web-auto-env/bin/activate && python -m src.main && exit 0"'
     
     try:
