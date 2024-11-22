@@ -1,9 +1,14 @@
 import time
+import random
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from src.utils import get_credential
 from src.config import (
     WEB_URL,
-    USERNAME,
-    PASSWORD
+    LOGIN_USER_PARAM_NAME,
+    LOGIN_PASS_PARAM_NAME
 )
 
 def automate_login(logger,driver):
@@ -44,28 +49,47 @@ def automate_login(logger,driver):
         driver.get(WEB_URL)
 
         # Wait for the page to load
-        time.sleep(2)
+        time.sleep(10)
+        try:
+            logger.info('Finding cookies element..')
+            # Find the shadow host element
+            shadow_host = driver.find_element(By.CSS_SELECTOR, "div#usercentrics-root")
+            # Access the shadow root using JavaScript
+            shadow_root = driver.execute_script("return arguments[0].shadowRoot", shadow_host)
+            # Find the cookie accept button inside the shadow root
+            accept_button = shadow_root.find_element(By.CSS_SELECTOR, "button[data-testid='uc-deny-all-button']")
+
+            # Click the accept button
+            accept_button.click()
+            logger.info('Accepted the cookies.')
+        
+        except:
+            None
+
+        time.sleep(random.uniform(4, 8))
+
+        # go to the login page by clicking on the button
+        cookies_button = driver.find_element(By.XPATH, "//a[@class='coh-style-link-primary lfg-login-btn']")
+        cookies_button.click()
+        time.sleep(random.uniform(4, 8))
 
         # Locate the username and password fields and sign-in button
-        username_input = driver.find_element(By.ID, "login_field")
-        password_input = driver.find_element(By.ID, "password")
-        sign_in_button = driver.find_element(By.NAME, "commit")
+        username_input = driver.find_element(By.ID, "inputEmail")
+        password_input = driver.find_element(By.ID, "inputPassword")
 
         # Fill in the login form
         logger.info('Entering user credentials...')
-        username_input.send_keys(USERNAME)
-        password_input.send_keys(PASSWORD)
+        username_input.send_keys(get_credential(LOGIN_USER_PARAM_NAME))
+        time.sleep(random.uniform(3, 5))
+        password_input.send_keys(get_credential(LOGIN_PASS_PARAM_NAME))
+        time.sleep(random.uniform(3, 5))
 
         # Click the sign-in button
-        sign_in_button.click()
+        password_input.send_keys(Keys.RETURN)
         logger.info('Sign in button clicked.')
 
         # Wait for a while to observe the result
-        time.sleep(5)
+        time.sleep(random.uniform(8, 15))
 
     finally:
         logger.info(f"Current URL after login attempt: {driver.current_url}")
-
-        # Close the WebDriver
-        driver.quit()
-        logger.info('Chrome driver closed. Script ended.')

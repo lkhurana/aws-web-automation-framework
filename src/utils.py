@@ -4,6 +4,7 @@ from email.mime.text import MIMEText
 import boto3
 from botocore.exceptions import ClientError
 from src.config import REGION_NAME
+from datetime import datetime
 
 def send_email(subject, body, to_email, smtp_server, smtp_port, login, password):
     """
@@ -55,3 +56,13 @@ def get_credential(parameter_name):
     ssm = boto3.client('ssm', region_name=REGION_NAME)
     response = ssm.get_parameter(Name=parameter_name, WithDecryption=True)
     return response['Parameter']['Value']
+
+
+def get_weekday_int():
+    # Get the current date
+    current_date = datetime.now()
+
+    # Get the day of the week as an integer (Monday=0, Sunday=6)
+    day_of_week = current_date.weekday()
+
+    return day_of_week

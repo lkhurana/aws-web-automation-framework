@@ -70,4 +70,5 @@ def send_log_email(log_filename, recipient_email, subject = 'Automation Script L
         logging.info("Log email sent successfully.")
 
     except Exception as e:
-        logging.error(f"Failed to send email: {str(e)}")
+        #logging.error(f"Failed to send email: {str(e)}")
+        logging.error("Failed to send email.")
